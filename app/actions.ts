@@ -17,5 +17,5 @@ export async function logout() {
   }
 
   revalidatePath("/", "layout");
-  redirect("/sign-in");
+  redirect("/auth/sign-in");
 }
