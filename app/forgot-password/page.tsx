@@ -1,5 +1,5 @@
 "use client";
-import { ArrowLeft, Key, Mail, TriangleAlert } from "lucide-react";
+import { Key, Mail, TriangleAlert } from "lucide-react";
 import Link from "next/link";
 import { useState } from "react";
 
@@ -15,18 +15,8 @@ export default function ForgotPassword() {
   }, 5000);
 
   return (
-    <div className="min-h-screen bg-gradient-to-r from-violet-600 to-indigo-600 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gradient-to-r from-violet-500 to-indigo-600 flex items-center justify-center p-4">
       <div className="bg-white rounded-2xl shadow-2xl p-8 w-full max-w-md">
-        <div className="mb-6">
-          <Link
-            href="/login"
-            className="inline-flex items-center text-indigo-600 hover:text-blue-800 transition-colors text-sm font-medium"
-          >
-            <ArrowLeft className="w-4 h-4 mr-2" />
-            Back to Sign In
-          </Link>
-        </div>
-
         <div className="text-center mb-8">
           <div className="inline-flex items-center justify-center w-20 h-20 bg-gradient-to-r from-violet-500 to-indigo-600 rounded-full mb-4 shadow-lg">
             <Key className="w-10 h-10 text-white" />
@@ -35,7 +25,7 @@ export default function ForgotPassword() {
             Forgot Password?
           </h1>
           <p className="text-gray-600 text-center">
-            No worries! Enter your email address and we'll send you a link to
+            No worries! Enter your email address and we will send you a link to
             reset your password.
           </p>
         </div>
@@ -91,7 +81,7 @@ export default function ForgotPassword() {
             </div>
           </div>
           <Link
-            href="/login"
+            href="/sign-in"
             className="mt-4 inline-block text-indigo-600 hover:text-blue-800 font-medium transition-colors"
           >
             Sign in here
