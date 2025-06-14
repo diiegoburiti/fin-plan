@@ -1,8 +1,10 @@
 "use client";
-import { useState } from "react";
+
 import { HandCoins, LayoutDashboard, Settings } from "lucide-react";
-import { logout } from "@/app/actions";
-export default function Home() {
+import { useState } from "react";
+import { logout } from "../actions";
+
+export default function AccountsPage() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
 
   const [expenses, setExpenses] = useState([
