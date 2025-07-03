@@ -10,7 +10,7 @@ export default function Layout({ children }: LayoutProps) {
       <SideNav />
 
       <div className="flex-1 p-8">
-        <div className="max-w-4xl">{children}</div>
+        <div className="max-w-5xl">{children}</div>
       </div>
     </div>
   );

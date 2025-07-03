@@ -6,8 +6,8 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 
 const links = [
-  { name: "Expenses", href: "/expenses", icon: HandCoins },
   { name: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { name: "Budgets", href: "/budgets", icon: HandCoins },
   { name: "Settings", href: "/settings", icon: Settings },
 ];
 
