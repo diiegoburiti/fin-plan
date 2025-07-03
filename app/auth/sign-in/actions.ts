@@ -23,6 +23,6 @@ export async function signIn(
     return error.message
   }
 
-  revalidatePath("/", "layout");
-  redirect("/");
+  revalidatePath("/budgets", "layout");
+  redirect("/budgets");
 }
