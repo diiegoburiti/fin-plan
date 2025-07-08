@@ -6,13 +6,72 @@ import { redirect } from "next/navigation";
 
 import { z } from "zod";
 
-export async function createAccount(formData: FormData) {
+export type RecordActionState = {
+  success: boolean;
+  errors: {
+    name?: string[];
+    type?: string[];
+    category?: string[];
+    amount?: string[];
+    general?: string[];
+    date?: string[];
+    accountId?: string[];
+  };
+};
+
+export type accountActionState = {
+  success: boolean;
+  errors: {
+    name?: string[];
+    type?: string[];
+    initialAmount?: string[];
+    general?: string[];
+  };
+};
+
+const accountSchema = z.object({
+  name: z
+    .string()
+    .min(1, "Budget name is required")
+    .max(100, "Budget name must be less than 100 characters")
+    .trim(),
+  type: z.enum(["bank", "cash", "credit", "savings", "investment"], {
+    required_error: "Please select a valid account type",
+  }),
+  initialBalance: z
+    .string()
+    .min(1, "Initial balance is required")
+    .refine((val) => !isNaN(Number(val)), {
+      message: "Initial balance must be a valid number",
+    })
+    .refine((val) => Number(val) >= 0, {
+      message: "Initial balance cannot be negative",
+    })
+    .transform((val) => Number(val)),
+});
+
+export async function createAccount(
+  prevState: accountActionState,
+  formData: FormData
+) {
   const supabase = await createClient();
 
-  const name = formData.get("name") as string;
-  const budgetMonth = formData.get("budget-month") as string;
-  const type = formData.get("type") as string;
-  const initial_balance = formData.get("initial_balance") as string;
+  const rawData = {
+    name: formData.get("name"),
+    type: formData.get("type"),
+    initialBalance: formData.get("initial_balance"),
+  };
+
+  const validationResult = accountSchema.safeParse(rawData);
+
+  if (!validationResult.success) {
+    return {
+      success: false,
+      errors: validationResult.error?.flatten().fieldErrors || {},
+    };
+  }
+
+  const { name, type, initialBalance } = validationResult.data;
 
   const {
     data: { user },
@@ -23,23 +82,28 @@ export async function createAccount(formData: FormData) {
     .insert([
       {
         user_id: user?.id, // Add this line
-        name: "Main Bank asasausiaiusasa",
-        type: "bank",
-        initial_balance: 200,
-        // Add other columns as needed based on your table structure
+        name,
+        type,
+        initial_balance: initialBalance,
       },
     ])
     .select();
 
   if (error) {
-    console.error("Error inserting budget:", error);
-    // Handle error (you might want to use a toast notification or error state)
-    return;
+    console.error("Database error:", error);
+    return {
+      success: false,
+      errors: { general: ["Database error occurred"] },
+    };
   }
 
   console.log("Budget created successfully:", data);
 
   revalidatePath("/budgets");
+  return {
+    success: true,
+    errors: {},
+  };
 }
 
 const recordSchema = z.object({
@@ -58,19 +122,6 @@ const recordSchema = z.object({
     .transform((val) => Number(val)), // Transform to number after validation
   accountId: z.string().uuid("Invalid account ID"),
 });
-
-export type RecordActionState = {
-  success: boolean;
-  errors: {
-    name?: string[];
-    type?: string[];
-    category?: string[];
-    amount?: string[];
-    general?: string[];
-    date?: string[];
-    accountId?: string[];
-  };
-};
 
 export async function createRecordAction(
   prevState: RecordActionState,
@@ -126,4 +177,123 @@ export async function createRecordAction(
       errors: { general: ["An unexpected error occurred"] },
     };
   }
+}
+
+export async function deleteAccount(
+  prevState: accountActionState,
+  formData: FormData
+) {
+  const supabase = await createClient();
+
+  const accountId = formData.get("accountId");
+
+  console.log({ accountId });
+
+  if (!accountId) {
+    return {
+      success: false,
+      errors: { general: ["Account ID is required"] },
+    };
+  }
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  const { error } = await supabase
+    .from("accounts")
+    .delete()
+    .eq("account_id", accountId);
+
+  if (error) {
+    console.error("Database error:", error);
+    return {
+      success: false,
+      errors: { general: ["Failed to delete account"] },
+    };
+  }
+
+  console.log("Account deleted successfully");
+  revalidatePath("/budgets");
+  redirect("/budgets");
+  return {
+    success: true,
+    errors: {},
+  };
+}
+
+export async function editAccount(
+  prevState: accountActionState,
+  formData: FormData
+) {
+  const supabase = await createClient();
+
+  const rawData = {
+    accountId: formData.get("accountId"),
+    name: formData.get("name"),
+    type: formData.get("type"),
+    initialBalance: formData.get("initial_balance"),
+  };
+
+  // Validate account ID is present
+  if (!rawData.accountId) {
+    return {
+      success: false,
+      errors: { general: ["Account ID is required"] },
+    };
+  }
+
+  // Validate the form data (reuse your existing schema, excluding accountId)
+  const validationResult = accountSchema.safeParse({
+    name: rawData.name,
+    type: rawData.type,
+    initialBalance: rawData.initialBalance,
+  });
+
+  if (!validationResult.success) {
+    return {
+      success: false,
+      errors: validationResult.error?.flatten().fieldErrors || {},
+    };
+  }
+
+  const { name, type, initialBalance } = validationResult.data;
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
+  if (!user) {
+    return {
+      success: false,
+      errors: { general: ["User not authenticated"] },
+    };
+  }
+
+  // Update the account
+  const { error } = await supabase
+    .from("accounts")
+    .update({
+      name,
+      type,
+      initial_balance: initialBalance,
+    })
+    .eq("account_id", rawData.accountId)
+    .eq("user_id", user.id); // Security: only update user's own accounts
+
+  if (error) {
+    console.error("Database error:", error);
+    return {
+      success: false,
+      errors: { general: ["Failed to update account"] },
+    };
+  }
+
+  console.log("Account updated successfully");
+  revalidatePath("/budgets");
+
+  return {
+    success: true,
+    errors: {},
+  };
 }

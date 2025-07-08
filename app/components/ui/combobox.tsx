@@ -30,6 +30,7 @@ type ComboboxProps = {
   withSearch?: boolean;
   onSelect?: (value: string) => void;
   name: string;
+  defaultValue?: string;
 };
 
 export function Combobox({
@@ -38,6 +39,7 @@ export function Combobox({
   withSearch,
   onSelect,
   name,
+  defaultValue,
 }: ComboboxProps) {
   const [open, setOpen] = React.useState(false);
   const [value, setValue] = React.useState("");
@@ -59,7 +61,9 @@ export function Combobox({
             aria-expanded={open}
             className="w-full justify-between font-normal"
           >
-            {value ? items.find((item) => item.value === value)?.label : label}
+            {defaultValue || value
+              ? items.find((item) => item.value === value)?.label
+              : label}
             <ChevronsUpDown className="opacity-50" />
           </Button>
         </PopoverTrigger>

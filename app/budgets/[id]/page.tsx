@@ -2,22 +2,9 @@ import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
 import Card from "@/ui/budgets/card";
 import { ArrowLeft } from "lucide-react";
-import { createTransaction } from "../actions";
 import { TransactionForm } from "../ui/TransactionForm";
-
-import { Label } from "@/components/ui/label";
-
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { InputWithLabel } from "@/components/ui/input-with-label";
-import { Combobox } from "@/components/ui/combobox";
-
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { DeleteAccountButton } from "../ui/DeleteAccount";
+import { EditAccountModal } from "../ui/EditAccount";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const { id } = await props.params;
@@ -32,10 +19,6 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
     .from("records")
     .select("*")
     .eq("account_id", id);
-
-  /*   const calculateExpenses = () => {
-    const expensesRecords  = expenses?.filter(expense => expense.) 
-  } */
 
   const categories = [
     { label: "Food", value: "food" },
@@ -58,6 +41,8 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
 
   const fullDetails = details![0];
 
+  console.log({ fullDetails });
+
   return (
     <>
       <Card>
@@ -71,8 +56,13 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
             </div>
 
             <div className="">
-              <Button>Edit</Button>
-              <Button>Delete</Button>
+              {/* <Button>Edit</Button>
+              <Button>Delete</Button> */}
+              <EditAccountModal account={fullDetails} />
+              <DeleteAccountButton
+                accountId={fullDetails.account_id}
+                accountName={fullDetails.name}
+              />
             </div>
           </div>
           <div className="mt-10 mb-6 grid grid-cols-12">

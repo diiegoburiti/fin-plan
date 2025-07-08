@@ -10,7 +10,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createRecordAction, TransactionActionState } from "../actions";
+import { createRecordAction, RecordActionState } from "../actions";
 import { useActionState, useEffect, useRef } from "react";
 
 import {
@@ -36,7 +36,7 @@ export function TransactionForm({
   const today = new Date().toLocaleDateString();
   const closeRef = useRef<HTMLButtonElement>(null);
 
-  const initialState: TransactionActionState = {
+  const initialState: RecordActionState = {
     success: false,
     errors: {},
   };
@@ -52,6 +52,7 @@ export function TransactionForm({
     }
   }, [actionState]);
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getErrorMessage = (errors: any, field: string): string | null => {
     if (!errors || typeof errors !== "object") return null;
     const fieldErrors = errors[field];

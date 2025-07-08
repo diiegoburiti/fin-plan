@@ -16,27 +16,7 @@ import { Label } from "@/components/ui/label";
 import { createAccount } from "./actions";
 import { CreditCard, PiggyBank, Wallet } from "lucide-react";
 import Link from "next/link";
-
-const months = [
-  { label: "January", value: "1" },
-  { label: "February", value: "2" },
-  { label: "March", value: "3" },
-  { label: "April", value: "4" },
-  { label: "May", value: "5" },
-  { label: "June", value: "6" },
-  { label: "July", value: "7" },
-  { label: "August", value: "8" },
-  { label: "September", value: "9" },
-  { label: "October", value: "10" },
-  { label: "November", value: "11" },
-  { label: "December", value: "12" },
-];
-
-const budgetOptions = [
-  { label: "General", value: "general" },
-  { label: "Credit Card", value: "credit-card" },
-  { label: "Investments", value: "investments" },
-];
+import { AccountForm } from "./ui/AccountForm";
 
 const icons = [
   { label: "general", icon: <Wallet /> },
@@ -49,7 +29,7 @@ const getIconByType = (budgetType: string) => {
   return iconItem?.icon;
 };
 
-export default async function ExpensesPage() {
+export default async function Page() {
   const supabase = await createClient();
 
   const { data: monthly_accounts, error } = await supabase
@@ -96,65 +76,7 @@ export default async function ExpensesPage() {
         );
       })}
 
-      <Dialog>
-        <DialogTrigger asChild>
-          <Button
-            className="fixed bottom-[10%] left-1/2 transform -translate-x-1/2"
-            variant="outline"
-          >
-            Add +
-          </Button>
-        </DialogTrigger>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Add a new budget</DialogTitle>
-
-            <form action={createAccount} className="space-y-4">
-              <div className="mb-4">
-                <InputWithLabel
-                  htmlFor="name"
-                  name="name"
-                  inputType="text"
-                  placeholder="Type the record name"
-                  label="Record"
-                />
-              </div>
-
-              <div className="mb-3 flex flex-col gap-3">
-                <Label className="text-gray-600 font-normal">
-                  Budget month
-                </Label>
-                <Combobox
-                  items={months}
-                  label="Select the month"
-                  name="budget-month"
-                />
-              </div>
-
-              <div className="mb-3 flex flex-col gap-3">
-                <Label className="text-gray-600 font-normal">Budget type</Label>
-                <Combobox
-                  items={budgetOptions}
-                  label="Select a type for your budget"
-                  name="type"
-                />
-              </div>
-
-              <div className="mb-4">
-                <InputWithLabel
-                  htmlFor="initial_balance"
-                  name="initial_balance"
-                  inputType="text"
-                  placeholder="Starting amount"
-                  label="Starting amount"
-                />
-              </div>
-
-              <Button type="submit">Save</Button>
-            </form>
-          </DialogHeader>
-        </DialogContent>
-      </Dialog>
+      <AccountForm />
     </>
   );
 }
