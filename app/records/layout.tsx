@@ -1,4 +1,4 @@
-import SideNav from "@/ui/sidenav";
+import Header from "@/ui/header";
 
 type LayoutProps = {
   children: React.ReactNode;
@@ -6,8 +6,8 @@ type LayoutProps = {
 
 export default function Layout({ children }: LayoutProps) {
   return (
-    <div className="min-h-screen bg-gray-50 flex">
-      <SideNav />
+    <div className="min-h-screen bg-gray-50 ">
+      <Header />
 
       <div className="flex-1 p-8">
         <div className="max-w-5xl">{children}</div>
