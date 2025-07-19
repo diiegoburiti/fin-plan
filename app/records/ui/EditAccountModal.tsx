@@ -12,15 +12,8 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Edit, Loader2 } from "lucide-react";
-import { editAccount } from "@/budgets/actions"; // Update with your actual path
+import { editAccount } from "@/records/actions";
 import { Combobox } from "@/components/ui/combobox";
 
 interface EditAccountModalProps {
@@ -65,7 +58,6 @@ export function EditAccountModal({ account }: EditAccountModalProps) {
     });
   };
 
-  // Close modal on success
   if (state.success && open) {
     setOpen(false);
   }
@@ -73,7 +65,7 @@ export function EditAccountModal({ account }: EditAccountModalProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button>
+        <Button className="cursor-pointer">
           <Edit className="h-4 w-4 mr-2" />
           Edit
         </Button>
@@ -134,7 +126,6 @@ export function EditAccountModal({ account }: EditAccountModalProps) {
             )}
           </div>
 
-          {/* Show general errors */}
           {state.errors?.general && (
             <div className="text-red-500 text-sm">
               {state.errors.general.map((error, index) => (

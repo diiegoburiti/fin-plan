@@ -6,12 +6,13 @@ import { redirect } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 
 export async function signIn(
-  prevState: string | undefined, 
-  formData: FormData) {
+  prevState: string | undefined,
+  formData: FormData
+) {
   const supabase = await createClient();
 
-  console.log({formData});
-  
+  console.log({ formData });
+
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,
@@ -20,9 +21,9 @@ export async function signIn(
   const { error } = await supabase.auth.signInWithPassword(data);
 
   if (error) {
-    return error.message
+    return error.message;
   }
 
-  revalidatePath("/budgets", "layout");
-  redirect("/budgets");
+  revalidatePath("/records", "layout");
+  redirect("/records");
 }

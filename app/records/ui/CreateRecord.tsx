@@ -29,10 +29,7 @@ interface TransactionFormProps {
   categories: { label: string; value: string }[];
 }
 
-export function TransactionForm({
-  accountId,
-  categories,
-}: TransactionFormProps) {
+export function CreateRecord({ accountId, categories }: TransactionFormProps) {
   const today = new Date().toLocaleDateString();
   const closeRef = useRef<HTMLButtonElement>(null);
 
@@ -162,13 +159,7 @@ export function TransactionForm({
 
             <div className="space-y-2">
               <Label htmlFor="amount">Amount</Label>
-              <Input
-                type="text"
-                id="amount"
-                name="amount"
-                step="0.01"
-                placeholder="0.00"
-              />
+              <Input type="text" id="amount" name="amount" placeholder="0.00" />
               {amountError && (
                 <p className="text-red-500 text-sm">{amountError}</p>
               )}

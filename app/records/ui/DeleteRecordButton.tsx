@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -13,41 +13,48 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { AlertTriangle, Loader2 } from "lucide-react";
-import { deleteAccount } from "@/budgets/actions";
+import { AlertTriangle, Loader2, Trash } from "lucide-react";
+import { deleteRecord } from "@/records/actions";
 
-interface DeleteAccountButtonProps {
+interface DeleteRecordButtonProps {
+  recordId: string;
+  recordName: string;
   accountId: string;
-  accountName: string;
 }
 
-export function DeleteAccountButton({
+export function DeleteRecordButton({
+  recordId,
+  recordName,
   accountId,
-  accountName,
-}: DeleteAccountButtonProps) {
-  const [state, formAction, isPending] = useActionState(deleteAccount, {
+}: DeleteRecordButtonProps) {
+  const [state, formAction, isPending] = useActionState(deleteRecord, {
     success: false,
     errors: {},
   });
 
-  useEffect(() => {
-    console.log({ state });
-  }, [state]);
+  console.log({ recordId });
+  console.log({ recordName });
 
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
-        <Button variant="destructive">Delete</Button>
+        <Button
+          variant="secondary"
+          size="icon"
+          className="size-8 cursor-pointer"
+        >
+          <Trash />
+        </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
         <AlertDialogHeader>
           <AlertDialogTitle className="flex items-center gap-2">
             <AlertTriangle className="h-5 w-5 text-red-500" />
-            Delete Account
+            Delete Record
           </AlertDialogTitle>
           <AlertDialogDescription>
-            Are you sure you want to delete the account{" "}
-            <strong>"{accountName}"</strong>? This action cannot be undone and
+            Are you sure you want to delete the record{" "}
+            <strong>"{recordName}"</strong>? This action cannot be undone and
             will permanently delete all associated transactions.
           </AlertDialogDescription>
         </AlertDialogHeader>
@@ -63,7 +70,9 @@ export function DeleteAccountButton({
         <AlertDialogFooter>
           <AlertDialogCancel disabled={isPending}>Cancel</AlertDialogCancel>
           <form action={formAction}>
+            <input type="hidden" name="recordId" value={recordId} />
             <input type="hidden" name="accountId" value={accountId} />
+
             <AlertDialogAction
               type="submit"
               disabled={isPending}
@@ -75,7 +84,7 @@ export function DeleteAccountButton({
                   Deleting...
                 </>
               ) : (
-                "Delete Account"
+                "Delete Record"
               )}
             </AlertDialogAction>
           </form>

@@ -99,14 +99,14 @@ export async function createAccount(
 
   console.log("Budget created successfully:", data);
 
-  revalidatePath("/budgets");
+  revalidatePath("/records");
   return {
     success: true,
     errors: {},
   };
 }
 
-const recordSchema = z.object({
+const createRecordSchema = z.object({
   name: z.string().min(1, "Record name is required").max(100, "Name too long"),
   type: z.enum(["expense", "income"], {
     required_error: "Please select a transaction type",
@@ -123,11 +123,127 @@ const recordSchema = z.object({
   accountId: z.string().uuid("Invalid account ID"),
 });
 
+const editRecordSchema = z.object({
+  name: z.string().min(1, "Record name is required").max(100, "Name too long"),
+  type: z.enum(["expense", "income"], {
+    required_error: "Please select a record type",
+  }),
+  category: z.string().min(1, "Please select a category"),
+  date: z.string(),
+  amount: z
+    .string()
+    .min(1, "Amount is required")
+    .refine((val) => !isNaN(Number(val)) && Number(val) > 0, {
+      message: "Amount must be a positive number",
+    })
+    .transform((val) => Number(val)), // Transform to number after validation
+  accountId: z.string().uuid("Invalid account ID"),
+  recordId: z.string().min(1, "record ID is required"),
+});
+
+export async function deleteAccount(
+  prevState: accountActionState,
+  formData: FormData
+) {
+  const supabase = await createClient();
+
+  const accountId = formData.get("accountId");
+
+  if (!accountId) {
+    return {
+      success: false,
+      errors: { general: ["Account ID is required"] },
+    };
+  }
+
+  const { error } = await supabase
+    .from("accounts")
+    .delete()
+    .eq("account_id", accountId);
+
+  if (error) {
+    console.error("Database error:", error);
+    return {
+      success: false,
+      errors: { general: ["Failed to delete account"] },
+    };
+  }
+
+  console.log("Account deleted successfully");
+  revalidatePath("/records");
+  redirect("/records");
+  return {
+    success: true,
+    errors: {},
+  };
+}
+
+export async function editAccount(
+  prevState: accountActionState,
+  formData: FormData
+) {
+  const supabase = await createClient();
+
+  const rawData = {
+    accountId: formData.get("accountId"),
+    name: formData.get("name"),
+    type: formData.get("type"),
+    initialBalance: formData.get("initial_balance"),
+  };
+
+  if (!rawData.accountId) {
+    return {
+      success: false,
+      errors: { general: ["Account ID is required"] },
+    };
+  }
+
+  const validationResult = accountSchema.safeParse({
+    name: rawData.name,
+    type: rawData.type,
+    initialBalance: rawData.initialBalance,
+  });
+
+  if (!validationResult.success) {
+    return {
+      success: false,
+      errors: validationResult.error?.flatten().fieldErrors || {},
+    };
+  }
+
+  const { name, type, initialBalance } = validationResult.data;
+
+  const { error } = await supabase
+    .from("accounts")
+    .update({
+      name,
+      type,
+      initial_balance: initialBalance,
+    })
+    .eq("account_id", rawData.accountId);
+
+  if (error) {
+    console.error("Database error:", error);
+    return {
+      success: false,
+      errors: { general: ["Failed to update account"] },
+    };
+  }
+
+  console.log("Account updated successfully");
+  revalidatePath("/records");
+
+  return {
+    success: true,
+    errors: {},
+  };
+}
+
 export async function createRecordAction(
   prevState: RecordActionState,
   formData: FormData
 ) {
-  const validationResult = recordSchema.safeParse({
+  const validationResult = createRecordSchema.safeParse({
     name: formData.get("name"),
     type: formData.get("type"),
     category: formData.get("category"),
@@ -165,7 +281,7 @@ export async function createRecordAction(
       };
     }
 
-    revalidatePath(`budgets/${accountId}`);
+    revalidatePath(`records/${accountId}`);
     return {
       success: true,
       errors: {},
@@ -179,75 +295,18 @@ export async function createRecordAction(
   }
 }
 
-export async function deleteAccount(
-  prevState: accountActionState,
+export async function editRecord(
+  prevState: RecordActionState,
   formData: FormData
 ) {
-  const supabase = await createClient();
-
-  const accountId = formData.get("accountId");
-
-  console.log({ accountId });
-
-  if (!accountId) {
-    return {
-      success: false,
-      errors: { general: ["Account ID is required"] },
-    };
-  }
-
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
-  const { error } = await supabase
-    .from("accounts")
-    .delete()
-    .eq("account_id", accountId);
-
-  if (error) {
-    console.error("Database error:", error);
-    return {
-      success: false,
-      errors: { general: ["Failed to delete account"] },
-    };
-  }
-
-  console.log("Account deleted successfully");
-  revalidatePath("/budgets");
-  redirect("/budgets");
-  return {
-    success: true,
-    errors: {},
-  };
-}
-
-export async function editAccount(
-  prevState: accountActionState,
-  formData: FormData
-) {
-  const supabase = await createClient();
-
-  const rawData = {
-    accountId: formData.get("accountId"),
-    name: formData.get("name"),
-    type: formData.get("type"),
-    initialBalance: formData.get("initial_balance"),
-  };
-
-  // Validate account ID is present
-  if (!rawData.accountId) {
-    return {
-      success: false,
-      errors: { general: ["Account ID is required"] },
-    };
-  }
-
-  // Validate the form data (reuse your existing schema, excluding accountId)
-  const validationResult = accountSchema.safeParse({
-    name: rawData.name,
-    type: rawData.type,
-    initialBalance: rawData.initialBalance,
+  const validationResult = editRecordSchema.safeParse({
+    recordId: formData.get("recordId") as string,
+    name: formData.get("name") as string,
+    type: formData.get("type") as string,
+    category: formData.get("category") as string,
+    amount: formData.get("amount") as string,
+    date: formData.get("date") as string,
+    accountId: formData.get("accountId") as string,
   });
 
   if (!validationResult.success) {
@@ -257,40 +316,58 @@ export async function editAccount(
     };
   }
 
-  const { name, type, initialBalance } = validationResult.data;
+  const { recordId, name, category, amount, type, accountId } =
+    validationResult.data;
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const supabase = await createClient();
 
-  if (!user) {
-    return {
-      success: false,
-      errors: { general: ["User not authenticated"] },
-    };
-  }
-
-  // Update the account
   const { error } = await supabase
-    .from("accounts")
-    .update({
-      name,
-      type,
-      initial_balance: initialBalance,
-    })
-    .eq("account_id", rawData.accountId)
-    .eq("user_id", user.id); // Security: only update user's own accounts
+    .from("records")
+    .update({ name, category, amount, type })
+    .eq("transaction_id", recordId);
 
   if (error) {
     console.error("Database error:", error);
     return {
       success: false,
-      errors: { general: ["Failed to update account"] },
+      errors: { general: ["Failed to update record"] },
     };
   }
+  console.log("record updated!!!");
 
-  console.log("Account updated successfully");
-  revalidatePath("/budgets");
+  revalidatePath(`records/${accountId}`);
+  redirect(`/records/${accountId}`);
+
+  return {
+    success: true,
+    errors: {},
+  };
+}
+
+export async function deleteRecord(
+  prevState: RecordActionState,
+  formData: FormData
+) {
+  const recordId = formData.get("recordId") as string;
+  const accountId = formData.get("accountId") as string;
+
+  const supabase = await createClient();
+
+  const { error } = await supabase
+    .from("records")
+    .delete()
+    .eq("transaction_id", recordId);
+
+  if (error) {
+    console.error("Database error:", error);
+    return {
+      success: false,
+      errors: { general: ["Failed to update record"] },
+    };
+  }
+  console.log("record updated!!!");
+
+  revalidatePath(`records/${accountId}`);
 
   return {
     success: true,
