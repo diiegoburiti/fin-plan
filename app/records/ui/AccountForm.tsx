@@ -36,6 +36,7 @@ export function AccountForm() {
     initialState
   );
 
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const getErrorMessage = (errors: any, field: string): string | null => {
     if (!errors || typeof errors !== "object") return null;
     const fieldErrors = errors[field];

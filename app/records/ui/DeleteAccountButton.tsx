@@ -49,8 +49,8 @@ export function DeleteAccountButton({
           </AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to delete the account{" "}
-            <strong>"{accountName}"</strong>? This action cannot be undone and
-            will permanently delete all associated transactions.
+            <strong>&quot;{accountName}&quot;</strong>? This action cannot be
+            undone and will permanently delete all associated transactions.
           </AlertDialogDescription>
         </AlertDialogHeader>
 

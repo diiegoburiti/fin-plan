@@ -3,14 +3,9 @@
 import { useState } from "react";
 import { logout } from "@/actions";
 import NavLinks from "./nav-links";
-import { LayoutDashboard } from "lucide-react";
 
 export default function SideNav() {
   const [isSidebarExpanded, setIsSidebarExpanded] = useState(true);
-
-  const handleAddAccount = () => {
-    console.log("Add new account clicked");
-  };
 
   const toggleSidebar = () => {
     setIsSidebarExpanded(!isSidebarExpanded);

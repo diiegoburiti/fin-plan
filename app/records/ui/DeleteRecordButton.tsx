@@ -54,8 +54,8 @@ export function DeleteRecordButton({
           </AlertDialogTitle>
           <AlertDialogDescription>
             Are you sure you want to delete the record{" "}
-            <strong>"{recordName}"</strong>? This action cannot be undone and
-            will permanently delete all associated transactions.
+            <strong>&quot;{recordName}&quot;</strong>? This action cannot be
+            undone and will permanently delete all associated transactions.
           </AlertDialogDescription>
         </AlertDialogHeader>
 
