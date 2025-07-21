@@ -13,7 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
-import { AlertTriangle, Loader2 } from "lucide-react";
+import { AlertTriangle, Loader2, Trash } from "lucide-react";
 import { deleteAccount } from "@/records/actions";
 
 interface DeleteAccountButtonProps {
@@ -38,7 +38,7 @@ export function DeleteAccountButton({
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button className="cursor-pointer" variant="destructive">
-          Delete
+          <Trash /> Delete
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>

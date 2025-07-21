@@ -35,35 +35,41 @@ export default async function Page() {
   };
 
   return (
-    <>
-      <h1 className="mb-4 text-4xl font-extrabold leading-none tracking-tight text-gray-800 md:text-5xl lg:text-5xl dark:text-white">
-        My records
-      </h1>
+    <div className="flex gap-12">
+      <Card className="w-58">
+        <h4 className="text-2xl font-extrabold leading-none tracking-tight text-gray-800 mb-8">
+          Accounts
+        </h4>
 
-      {monthly_accounts?.map((account) => {
-        return (
-          <Link key={account.account_id} href={`records/${account.account_id}`}>
-            <Card animation>
-              <div className="grid grid-cols-4">
-                <div className="flex items-center gap-0.5 col-span-2">
-                  <span className="mr-2">{getIconByType(account.type)} </span>
-                  <span className=" font-medium tracking-tight text-gray-900 dark:text-white ">
-                    {account.name}
+        <AccountForm />
+      </Card>
+      <div className="flex-1">
+        {monthly_accounts?.map((account) => {
+          return (
+            <Link
+              key={account.account_id}
+              href={`records/${account.account_id}`}
+            >
+              <Card animation>
+                <div className="grid grid-cols-4">
+                  <div className="flex items-center gap-0.5 col-span-2">
+                    <span className="mr-2">{getIconByType(account.type)} </span>
+                    <span className=" font-medium tracking-tight text-gray-900 dark:text-white ">
+                      {account.name}
+                    </span>
+                  </div>
+                  <span className="font-medium text-gray-700 dark:text-gray-400 ">
+                    {account.type}
+                  </span>
+                  <span className="font-medium text-right text-gray-700 dark:text-gray-400 ">
+                    {formatAmount(account.initial_balance)}
                   </span>
                 </div>
-                <span className="font-medium text-gray-700 dark:text-gray-400 ">
-                  {account.type}
-                </span>
-                <span className="font-medium text-right text-gray-700 dark:text-gray-400 ">
-                  {formatAmount(account.initial_balance)}
-                </span>
-              </div>
-            </Card>
-          </Link>
-        );
-      })}
-
-      <AccountForm />
-    </>
+              </Card>
+            </Link>
+          );
+        })}
+      </div>
+    </div>
   );
 }

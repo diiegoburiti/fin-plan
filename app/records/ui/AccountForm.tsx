@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/dialog";
 import { accountActionState, createAccount } from "../actions"; // Update the import path as needed
 import { useActionState, useEffect, useRef } from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { toast } from "sonner";
 
 const budgetOptions = [
@@ -64,11 +64,9 @@ export function AccountForm() {
   return (
     <Dialog>
       <DialogTrigger asChild>
-        <Button
-          className="fixed bottom-[10%] left-1/2 transform -translate-x-1/2"
-          variant="outline"
-        >
-          Add +
+        <Button className="w-full">
+          <Plus />
+          Add
         </Button>
       </DialogTrigger>
       <DialogContent>
