@@ -16,6 +16,7 @@ import { editRecord } from "@/records/actions";
 import Card from "@/ui/records/card";
 import { DatePicker } from "@/components/ui/date-picker";
 import { ArrowLeft, Loader2 } from "lucide-react";
+import { getErrorMessage } from "@/utils";
 
 interface Transaction {
   transaction_id: string;
@@ -63,7 +64,7 @@ export default function EditRecords({
     category: transaction.category,
   });
 
-  const [state, formAction, isPending] = useActionState(editRecord, {
+  const [actionState, formAction, isPending] = useActionState(editRecord, {
     success: false,
     errors: {},
   });
@@ -84,6 +85,13 @@ export default function EditRecords({
       formAction(data);
     });
   };
+
+  const generalError = getErrorMessage(actionState.errors, "general");
+  const typelError = getErrorMessage(actionState.errors, "type");
+  const nameError = getErrorMessage(actionState.errors, "category");
+  const categoryError = getErrorMessage(actionState.errors, "name");
+  const dateError = getErrorMessage(actionState.errors, "date");
+  const amountError = getErrorMessage(actionState.errors, "amount");
 
   const handleCancel = () => {
     router.push(`/records/${accountId}`);
@@ -122,9 +130,7 @@ export default function EditRecords({
                 <Label htmlFor="income">Income</Label>
               </div>
             </RadioGroup>
-            {state.errors?.type && (
-              <p className="text-sm text-red-600">{state.errors.type[0]}</p>
-            )}
+            {typelError && <p className="text-sm text-red-600">{typelError}</p>}
           </div>
 
           <div className="space-y-2">
@@ -138,9 +144,7 @@ export default function EditRecords({
               placeholder="Transaction name"
               required
             />
-            {state.errors?.name && (
-              <p className="text-sm text-red-600">{state.errors.name[0]}</p>
-            )}
+            {nameError && <p className="text-sm text-red-600">{nameError}</p>}
           </div>
 
           <div className="space-y-2">
@@ -164,8 +168,8 @@ export default function EditRecords({
               </SelectContent>
             </Select>
 
-            {state.errors?.category && (
-              <p className="text-sm text-red-600">{state.errors.category[0]}</p>
+            {categoryError && (
+              <p className="text-sm text-red-600">{categoryError}</p>
             )}
           </div>
 
@@ -178,9 +182,7 @@ export default function EditRecords({
               placeholder="Pick a transaction date"
               required
             />
-            {state.errors?.date && (
-              <p className="text-sm text-red-600">{state.errors.date[0]}</p>
-            )}
+            {dateError && <p className="text-sm text-red-600">{dateError}</p>}
           </div>
 
           {/* Amount */}
@@ -195,15 +197,15 @@ export default function EditRecords({
               placeholder="0.00"
               required
             />
-            {state.errors?.amount && (
-              <p className="text-sm text-red-600">{state.errors.amount[0]}</p>
+            {amountError && (
+              <p className="text-sm text-red-600">{amountError}</p>
             )}
           </div>
 
           {/* General Error */}
-          {state.errors?.general && (
+          {generalError && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-md">
-              <p className="text-sm text-red-600">{state.errors.general[0]}</p>
+              <p className="text-sm text-red-600">{generalError}</p>
             </div>
           )}
 

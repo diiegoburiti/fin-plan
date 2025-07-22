@@ -15,6 +15,7 @@ import { Label } from "@/components/ui/label";
 import { Edit, Loader2 } from "lucide-react";
 import { editAccount } from "@/records/actions";
 import { Combobox } from "@/components/ui/combobox";
+import { getErrorMessage } from "@/utils";
 
 interface EditAccountModalProps {
   account: {
@@ -30,6 +31,7 @@ const budgetOptions = [
   { label: "Credit Card", value: "credit" },
   { label: "Investments", value: "investments" },
 ];
+/* TODO: RENAME initial_balance TO initial_amount */
 
 export function EditAccountModal({ account }: EditAccountModalProps) {
   const [open, setOpen] = useState(false);
@@ -39,7 +41,7 @@ export function EditAccountModal({ account }: EditAccountModalProps) {
     initial_balance: account.initial_balance.toString(),
   });
 
-  const [state, formAction, isPending] = useActionState(editAccount, {
+  const [actionState, formAction, isPending] = useActionState(editAccount, {
     success: false,
     errors: {},
   });
@@ -58,7 +60,14 @@ export function EditAccountModal({ account }: EditAccountModalProps) {
     });
   };
 
-  if (state.success && open) {
+  const generalError = getErrorMessage(actionState.errors, "general");
+  const nameError = getErrorMessage(actionState.errors, "name");
+  const initialAmountError = getErrorMessage(
+    actionState.errors,
+    "initialAmount"
+  );
+
+  if (actionState.success && open) {
     setOpen(false);
   }
 
@@ -87,9 +96,7 @@ export function EditAccountModal({ account }: EditAccountModalProps) {
               disabled={isPending}
               placeholder="Enter account name"
             />
-            {state.errors?.name && (
-              <p className="text-sm text-red-500">{state.errors.name[0]}</p>
-            )}
+            {nameError && <p className="text-sm text-red-500">{nameError}</p>}
           </div>
 
           <div className="mb-3 flex flex-col gap-3">
@@ -103,11 +110,10 @@ export function EditAccountModal({ account }: EditAccountModalProps) {
               name="type"
               withSearch
             />
-            {/* {typeError && <p className="text-red-500 text-sm">{typeError}</p>} */}
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="initial_balance">Initial Balance</Label>
+            <Label htmlFor="initial_balance">Initial Amount</Label>
             <Input
               id="initial_balance"
               type="number"
@@ -119,18 +125,14 @@ export function EditAccountModal({ account }: EditAccountModalProps) {
               disabled={isPending}
               placeholder="0.00"
             />
-            {state.errors?.initialBalance && (
-              <p className="text-sm text-red-500">
-                {state.errors.initialBalance[0]}
-              </p>
+            {initialAmountError && (
+              <p className="text-sm text-red-500">{initialAmountError}</p>
             )}
           </div>
 
-          {state.errors?.general && (
-            <div className="text-red-500 text-sm">
-              {state.errors.general.map((error, index) => (
-                <p key={index}>{error}</p>
-              ))}
+          {generalError && (
+            <div className="p-3 bg-red-50 border border-red-200 rounded-md">
+              <p className="text-red-800 text-sm">{generalError}</p>
             </div>
           )}
 

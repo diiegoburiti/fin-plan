@@ -13,3 +13,13 @@ export const formatAmount = (amount: number) => {
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export const getErrorMessage = (errors: any, field: string): string | null => {
+  if (!errors || typeof errors !== "object") return null;
+  const fieldErrors = errors[field];
+  if (Array.isArray(fieldErrors) && fieldErrors.length > 0) {
+    return fieldErrors[0];
+  }
+  return null;
+};

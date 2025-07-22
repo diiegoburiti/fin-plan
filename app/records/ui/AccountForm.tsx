@@ -16,6 +16,7 @@ import { accountActionState, createAccount } from "../actions"; // Update the im
 import { useActionState, useEffect, useRef } from "react";
 import { Loader2, Plus } from "lucide-react";
 import { toast } from "sonner";
+import { getErrorMessage } from "@/utils";
 
 const budgetOptions = [
   { label: "General", value: "bank" },
@@ -35,16 +36,6 @@ export function AccountForm() {
     createAccount,
     initialState
   );
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const getErrorMessage = (errors: any, field: string): string | null => {
-    if (!errors || typeof errors !== "object") return null;
-    const fieldErrors = errors[field];
-    if (Array.isArray(fieldErrors) && fieldErrors.length > 0) {
-      return fieldErrors[0];
-    }
-    return null;
-  };
 
   const typeError = getErrorMessage(actionState.errors, "type");
   const generalError = getErrorMessage(actionState.errors, "general");

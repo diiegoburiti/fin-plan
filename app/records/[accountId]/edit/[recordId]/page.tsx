@@ -1,12 +1,6 @@
 import { createClient } from "@/lib/supabase/server";
 import EditRecordPage from "@/records/ui/EdtiRecords";
 
-interface PageProps {
-  params: {
-    recordId: string;
-  };
-}
-
 async function getRecord(recordId: string) {
   const supabase = await createClient();
 
@@ -33,9 +27,12 @@ export default async function Page(props: {
   return <EditRecordPage transaction={record} accountId={accountId} />;
 }
 
-export async function generateMetadata({ params }: PageProps) {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ accountId: string; recordId: string }>;
+}) {
   const { recordId } = await params;
-
   const record = await getRecord(recordId);
 
   return {

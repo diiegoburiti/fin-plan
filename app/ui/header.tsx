@@ -1,11 +1,9 @@
 "use client";
 
-import { useEffect } from "react";
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { logout } from "@/actions";
-import { createClient } from "@/lib/supabase/client";
 import { Button } from "@/components/ui/button";
 
 export default function Header() {
@@ -14,21 +12,6 @@ export default function Header() {
   const isActiveRoute = (route: string) => {
     return pathname === route || pathname.startsWith(route + "/");
   };
-
-  const supabase = createClient();
-
-  useEffect(() => {
-    async function getUser() {
-      const {
-        data: { user },
-      } = await supabase.auth.getUser();
-      console.log({ user });
-
-      /*  setUser(user);
-    setLoading(false); */
-    }
-    getUser();
-  }, []);
 
   return (
     <header className="bg-white border-b border-gray-200 sticky top-0 z-50">
