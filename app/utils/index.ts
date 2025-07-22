@@ -1,3 +1,6 @@
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
 export const formatAmount = (amount: number) => {
   if (!amount && amount !== 0) return "$0.00";
 
@@ -6,3 +9,7 @@ export const formatAmount = (amount: number) => {
     currency: "USD",
   }).format(amount);
 };
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
