@@ -99,7 +99,6 @@ export default function EditRecords({
 
   return (
     <div className="">
-      {/* Header */}
       <div className="mb-4">
         <Button variant="ghost" onClick={handleCancel} className="mb-2">
           <ArrowLeft className="h-4 w-4 mr-2" />
@@ -108,10 +107,8 @@ export default function EditRecords({
         <h1 className="text-3xl font-bold">Edit Record - {transaction.name}</h1>
       </div>
 
-      {/* Form Card */}
       <Card>
         <form onSubmit={handleSubmit} className="space-y-6">
-          {/* Transaction Type */}
           <div className="space-y-3">
             <Label className="text-base font-medium">Type</Label>
             <RadioGroup
@@ -173,7 +170,6 @@ export default function EditRecords({
             )}
           </div>
 
-          {/* Date */}
           <div className="space-y-2">
             <Label>Date</Label>
             <DatePicker
@@ -185,7 +181,6 @@ export default function EditRecords({
             {dateError && <p className="text-sm text-red-600">{dateError}</p>}
           </div>
 
-          {/* Amount */}
           <div className="space-y-2">
             <Label htmlFor="amount">Amount</Label>
             <Input
@@ -202,14 +197,12 @@ export default function EditRecords({
             )}
           </div>
 
-          {/* General Error */}
           {generalError && (
             <div className="p-3 bg-red-50 border border-red-200 rounded-md">
               <p className="text-sm text-red-600">{generalError}</p>
             </div>
           )}
 
-          {/* Buttons */}
           <div className="flex gap-3 pt-4">
             <Button
               type="button"

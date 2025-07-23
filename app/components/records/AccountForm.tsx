@@ -12,11 +12,11 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { accountActionState, createAccount } from "../actions"; // Update the import path as needed
 import { useActionState, useEffect, useRef } from "react";
 import { Loader2, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/utils";
+import { accountActionState, createAccount } from "@/records/actions";
 
 const budgetOptions = [
   { label: "General", value: "bank" },
@@ -66,7 +66,6 @@ export function AccountForm() {
           <DialogClose ref={closeRef} className="hidden" />
 
           <form action={formAction} className="space-y-4">
-            {/* Success/Error Messages */}
             {actionState.success && (
               <div className="p-3 bg-green-50 border border-green-200 rounded-md">
                 <p className="text-green-800 text-sm">
@@ -81,7 +80,6 @@ export function AccountForm() {
               </div>
             )}
 
-            {/* Budget Name */}
             <div className="mb-4">
               <InputWithLabel
                 htmlFor="name"
@@ -95,7 +93,6 @@ export function AccountForm() {
               )}
             </div>
 
-            {/* Budget Type */}
             <div className="mb-3 flex flex-col gap-3">
               <Label className="text-gray-600 font-normal">Budget type</Label>
               <Combobox
@@ -107,7 +104,6 @@ export function AccountForm() {
               {typeError && <p className="text-red-500 text-sm">{typeError}</p>}
             </div>
 
-            {/* Initial Balance */}
             <div className="mb-4">
               <InputWithLabel
                 htmlFor="initial_balance"

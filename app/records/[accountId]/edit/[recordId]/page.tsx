@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import EditRecordPage from "@/records/ui/EditRecords";
+import EditRecords from "@/components/records/EditRecords";
 
 async function getRecord(recordId: string) {
   const supabase = await createClient();
@@ -24,7 +24,7 @@ export default async function Page(props: {
 
   const record = await getRecord(recordId);
 
-  return <EditRecordPage transaction={record} accountId={accountId} />;
+  return <EditRecords transaction={record} accountId={accountId} />;
 }
 
 export async function generateMetadata({
