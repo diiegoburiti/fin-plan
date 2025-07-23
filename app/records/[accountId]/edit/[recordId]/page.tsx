@@ -1,5 +1,5 @@
 import { createClient } from "@/lib/supabase/server";
-import EditRecordPage from "@/records/ui/EdtiRecords";
+import EditRecordPage from "@/records/ui/EditRecords";
 
 async function getRecord(recordId: string) {
   const supabase = await createClient();
