@@ -13,7 +13,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { editRecord } from "@/records/actions";
-import Card from "@/ui/records/card";
+import Card from "@/components/shared/card";
 import { DatePicker } from "@/components/ui/date-picker";
 import { ArrowLeft, Loader2 } from "lucide-react";
 import { getErrorMessage } from "@/utils";

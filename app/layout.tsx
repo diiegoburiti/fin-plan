@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { poppins } from "./ui/font";
+import { poppins } from "@/components/shared/font";
 import { Toaster } from "sonner";
-import Header from "./ui/header";
+import Header from "./components/shared/header";
 
 export const metadata: Metadata = {
   title: "Fin plan",

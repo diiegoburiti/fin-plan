@@ -10,7 +10,6 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { createRecordAction, RecordActionState } from "../actions";
 import { useActionState, useEffect, useRef } from "react";
 
 import {
@@ -23,6 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
 import { DatePicker } from "@/components/ui/date-picker";
+import { createRecordAction, RecordActionState } from "@/records/actions";
 
 interface TransactionFormProps {
   accountId: string;

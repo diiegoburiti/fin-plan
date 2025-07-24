@@ -1,12 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
-import Card from "@/ui/records/card";
+import Card from "@/components/shared/card";
 import { ArrowLeft, Pencil } from "lucide-react";
-import { CreateRecord } from "@/records/ui/CreateRecord";
-import { DeleteAccountButton } from "@/records/ui/DeleteAccountButton";
-import { EditAccountModal } from "@/records/ui/EditAccountModal";
+import { CreateRecord } from "@/components/records/CreateRecord";
+import { DeleteAccountButton } from "@/components/records/DeleteAccountButton";
+import { EditAccountModal } from "@/components/records/EditAccountModal";
 import Link from "next/link";
-import { DeleteRecordButton } from "@/records/ui/DeleteRecordButton";
+import { DeleteRecordButton } from "@/components/records/DeleteRecordButton";
 import { formatAmount } from "@/utils";
 
 export default async function Page(props: {

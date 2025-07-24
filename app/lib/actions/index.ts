@@ -27,3 +27,18 @@ export async function signIn(
   revalidatePath("/records", "layout");
   redirect("/records");
 }
+
+export async function logOut() {
+  const supabase = await createClient();
+
+  const { error } = await supabase.auth.signOut();
+
+  if (error) {
+    console.error("Logout error:", error);
+    //todo: handle this error
+    return;
+  }
+
+  revalidatePath("/", "layout");
+  redirect("/auth/sign-in");
+}

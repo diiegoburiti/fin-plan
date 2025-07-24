@@ -3,7 +3,7 @@
 import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { logout } from "@/actions";
+import { logOut } from "@/lib/actions";
 import { Button } from "@/components/ui/button";
 
 export default function Header() {
@@ -52,7 +52,7 @@ export default function Header() {
           <div className="flex items-center ml-auto">
             <form
               action={async () => {
-                await logout();
+                await logOut();
               }}
             >
               <Button

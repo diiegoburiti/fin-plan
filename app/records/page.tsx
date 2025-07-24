@@ -2,8 +2,8 @@
 import { createClient } from "@/lib/supabase/server";
 import { CreditCard, PiggyBank, Wallet } from "lucide-react";
 import Link from "next/link";
-import { AccountForm } from "./ui/AccountForm";
-import Card from "@/ui/records/card";
+import { AccountForm } from "@/components/records/AccountForm";
+import Card from "@/components/shared/card";
 
 const icons = [
   { label: "general", icon: <Wallet /> },

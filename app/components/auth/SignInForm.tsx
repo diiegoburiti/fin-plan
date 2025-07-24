@@ -1,7 +1,7 @@
 "use client";
 import { useActionState } from "react";
 import { Loader2, Lock, Mail, TriangleAlert, User } from "lucide-react";
-import { signIn } from "@/auth/sign-in/actions";
+import { signIn } from "@/lib/actions";
 
 export default function SignInForm() {
   const [errorMessage, formAction, isPending] = useActionState(
