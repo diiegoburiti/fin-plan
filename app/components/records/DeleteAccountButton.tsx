@@ -14,7 +14,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { AlertTriangle, Loader2, Trash } from "lucide-react";
-import { deleteAccount } from "@/records/actions";
+import { deleteAccount } from "@/lib/actions/account";
 
 interface DeleteAccountButtonProps {
   accountId: string;

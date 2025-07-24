@@ -12,7 +12,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { editRecord } from "@/records/actions";
+import { editRecord } from "@/lib/actions/records";
 import Card from "@/components/shared/card";
 import { DatePicker } from "@/components/ui/date-picker";
 import { ArrowLeft, Loader2 } from "lucide-react";

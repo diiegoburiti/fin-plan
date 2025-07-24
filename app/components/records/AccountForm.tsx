@@ -16,7 +16,7 @@ import { useActionState, useEffect, useRef } from "react";
 import { Loader2, Plus } from "lucide-react";
 import { toast } from "sonner";
 import { getErrorMessage } from "@/utils";
-import { accountActionState, createAccount } from "@/records/actions";
+import { accountActionState, createAccount } from "@/lib/actions/account";
 
 const budgetOptions = [
   { label: "General", value: "bank" },

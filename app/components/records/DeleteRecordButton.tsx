@@ -14,7 +14,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { AlertTriangle, Loader2, Trash } from "lucide-react";
-import { deleteRecord } from "@/records/actions";
+import { deleteRecord } from "@/lib/actions/records";
 
 interface DeleteRecordButtonProps {
   recordId: string;

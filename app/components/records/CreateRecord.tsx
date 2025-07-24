@@ -22,7 +22,7 @@ import {
 } from "@/components/ui/dialog";
 import { Loader2 } from "lucide-react";
 import { DatePicker } from "@/components/ui/date-picker";
-import { createRecordAction, RecordActionState } from "@/records/actions";
+import { createRecordAction, RecordActionState } from "@/lib/actions/records";
 
 interface TransactionFormProps {
   accountId: string;

@@ -13,7 +13,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Edit, Loader2 } from "lucide-react";
-import { editAccount } from "@/records/actions";
+import { editAccount } from "@/lib/actions/account";
 import { Combobox } from "@/components/ui/combobox";
 import { getErrorMessage } from "@/utils";
 
