@@ -24,7 +24,7 @@ export async function createAccount(
   const rawData = {
     name: formData.get("name"),
     type: formData.get("type"),
-    initialBalance: formData.get("initial_balance"),
+    initialBalance: formData.get("initialBalance"),
   };
 
   const validationResult = accountSchema.safeParse(rawData);
@@ -38,15 +38,10 @@ export async function createAccount(
 
   const { name, type, initialBalance } = validationResult.data;
 
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
-
   const { data, error } = await supabase
-    .from("accounts") // Replace with your actual table name
+    .from("accounts")
     .insert([
       {
-        user_id: user?.id, // Add this line
         name,
         type,
         initial_balance: initialBalance,

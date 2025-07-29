@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
 import { InputWithLabel } from "@/components/ui/input-with-label";
 import { Combobox } from "@/components/ui/combobox";
+import { Input } from "@/components/ui/input";
 import {
   Dialog,
   DialogClose,
@@ -40,9 +41,9 @@ export function AccountForm() {
   const typeError = getErrorMessage(actionState.errors, "type");
   const generalError = getErrorMessage(actionState.errors, "general");
   const nameError = getErrorMessage(actionState.errors, "name");
-  const initialAmountError = getErrorMessage(
+  const initialBalanceError = getErrorMessage(
     actionState.errors,
-    "initialAmount"
+    "initialBalance"
   );
 
   useEffect(() => {
@@ -62,7 +63,7 @@ export function AccountForm() {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Add a new budget</DialogTitle>
+          <DialogTitle>Add a new account</DialogTitle>
           <DialogClose ref={closeRef} className="hidden" />
 
           <form action={formAction} className="space-y-4">
@@ -105,18 +106,18 @@ export function AccountForm() {
             </div>
 
             <div className="mb-4">
-              <InputWithLabel
-                htmlFor="initial_balance"
-                name="initial_balance"
-                inputType="number"
-                placeholder="0.00"
-                label="Starting amount"
-              />
-              {initialAmountError && (
-                <p className="text-red-500 text-sm mt-1">
-                  {initialAmountError}
-                </p>
-              )}
+              <div className="space-y-2">
+                <Label htmlFor="initialBalance">Initial Amount</Label>
+                <Input
+                  type="text"
+                  id="initialBalance"
+                  name="initialBalance"
+                  placeholder="0.00"
+                />
+                {initialBalanceError && (
+                  <p className="text-red-500 text-sm">{initialBalanceError}</p>
+                )}
+              </div>
             </div>
 
             <Button type="submit" className="w-full">
