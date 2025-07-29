@@ -38,10 +38,15 @@ export async function createAccount(
 
   const { name, type, initialBalance } = validationResult.data;
 
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   const { data, error } = await supabase
     .from("accounts")
     .insert([
       {
+        user_id: user?.id,
         name,
         type,
         initial_balance: initialBalance,
