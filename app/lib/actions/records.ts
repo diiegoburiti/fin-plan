@@ -95,14 +95,14 @@ export async function editRecord(
     };
   }
 
-  const { recordId, name, category, amount, type, accountId } =
+  const { recordId, name, category, amount, type, accountId, date } =
     validationResult.data;
 
   const supabase = await createClient();
 
   const { error } = await supabase
     .from("records")
-    .update({ name, category, amount, type })
+    .update({ name, category, amount, type, date: date })
     .eq("transaction_id", recordId);
 
   if (error) {

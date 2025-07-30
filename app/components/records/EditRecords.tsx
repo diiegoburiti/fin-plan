@@ -72,6 +72,8 @@ export default function EditRecords({
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
+    const form = e.currentTarget as HTMLFormElement;
+    const formDataFromForm = new FormData(form);
     startTransition(() => {
       const data = new FormData();
       data.append("recordId", transaction.transaction_id);
@@ -80,7 +82,11 @@ export default function EditRecords({
       data.append("type", formData.type);
       data.append("category", formData.category);
       data.append("amount", formData.amount);
-      data.append("date", formData.date);
+
+      const dateFromDatePicker = formDataFromForm.get("date");
+
+      data.append("date", dateFromDatePicker || formData.date);
+      console.log("Date being sent:", dateFromDatePicker || formData.date);
 
       formAction(data);
     });
