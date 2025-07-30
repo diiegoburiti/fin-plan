@@ -49,7 +49,7 @@ export async function createAccount(
         user_id: user?.id,
         name,
         type,
-        initial_balance: initialBalance,
+        initial_amount: initialBalance,
       },
     ])
     .select();
@@ -117,7 +117,7 @@ export async function editAccount(
     accountId: formData.get("accountId"),
     name: formData.get("name"),
     type: formData.get("type"),
-    initialBalance: formData.get("initial_balance"),
+    initialBalance: formData.get("initial_amount"),
   };
 
   if (!rawData.accountId) {
@@ -147,7 +147,7 @@ export async function editAccount(
     .update({
       name,
       type,
-      initial_balance: initialBalance,
+      initial_amount: initialBalance,
     })
     .eq("account_id", rawData.accountId);
 

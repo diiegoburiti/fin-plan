@@ -22,7 +22,7 @@ interface EditAccountModalProps {
     account_id: string;
     name: string;
     type: string;
-    initial_balance: number;
+    initial_amount: number;
   };
 }
 
@@ -31,14 +31,14 @@ const budgetOptions = [
   { label: "Credit Card", value: "credit" },
   { label: "Investments", value: "investments" },
 ];
-/* TODO: RENAME initial_balance TO initial_amount */
+/* TODO: RENAME initial_amount TO initial_amount */
 
 export function EditAccountModal({ account }: EditAccountModalProps) {
   const [open, setOpen] = useState(false);
   const [formData, setFormData] = useState({
     name: account.name,
     type: account.type,
-    initial_balance: account.initial_balance.toString(),
+    initial_amount: account.initial_amount.toString(),
   });
 
   const [actionState, formAction, isPending] = useActionState(editAccount, {
@@ -54,7 +54,7 @@ export function EditAccountModal({ account }: EditAccountModalProps) {
       data.append("accountId", account.account_id);
       data.append("name", formData.name);
       data.append("type", formData.type);
-      data.append("initial_balance", formData.initial_balance);
+      data.append("initial_amount", formData.initial_amount);
 
       formAction(data);
     });
@@ -113,14 +113,14 @@ export function EditAccountModal({ account }: EditAccountModalProps) {
           </div>
 
           <div className="space-y-2">
-            <Label htmlFor="initial_balance">Initial Amount</Label>
+            <Label htmlFor="initial_amount">Initial Amount</Label>
             <Input
-              id="initial_balance"
+              id="initial_amount"
               type="number"
               step="0.01"
-              value={formData.initial_balance}
+              value={formData.initial_amount}
               onChange={(e) =>
-                setFormData({ ...formData, initial_balance: e.target.value })
+                setFormData({ ...formData, initial_amount: e.target.value })
               }
               disabled={isPending}
               placeholder="0.00"

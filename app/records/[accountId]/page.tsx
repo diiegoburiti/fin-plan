@@ -84,7 +84,7 @@ export default async function Page(props: {
               <span className="line-clamp-1 flex gap-2 font-medium">
                 Initial Amount
               </span>
-              <span className="text-">{fullDetails.initial_balance}</span>
+              <span className="text-">{fullDetails.initial_amount}</span>
             </div>
 
             <div className="col-span-3">

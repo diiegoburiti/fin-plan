@@ -62,7 +62,7 @@ export default async function Page() {
                     {account.type}
                   </span>
                   <span className="font-medium text-right text-gray-700 dark:text-gray-400 ">
-                    {formatAmount(account.initial_balance)}
+                    {formatAmount(account.initial_amount)}
                   </span>
                 </div>
               </Card>
