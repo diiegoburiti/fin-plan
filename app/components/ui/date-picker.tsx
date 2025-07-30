@@ -60,6 +60,7 @@ export function DatePicker({
               setDate(selectedDate);
               setOpen(false);
             }}
+            defaultMonth={date || today}
             disabled={(date) => {
               return date < oneYearAgo || date > oneYearFromNow || date > today;
             }}
