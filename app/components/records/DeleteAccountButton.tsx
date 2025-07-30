@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState, useEffect } from "react";
+import { useActionState } from "react";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -29,10 +29,6 @@ export function DeleteAccountButton({
     success: false,
     errors: {},
   });
-
-  useEffect(() => {
-    console.log({ state });
-  }, [state]);
 
   return (
     <AlertDialog>

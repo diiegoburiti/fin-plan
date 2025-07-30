@@ -11,8 +11,6 @@ export async function signIn(
 ) {
   const supabase = await createClient();
 
-  console.log({ formData });
-
   const data = {
     email: formData.get("email") as string,
     password: formData.get("password") as string,

@@ -13,7 +13,6 @@ export default async function Page(props: {
   params: Promise<{ accountId: string }>;
 }) {
   const { accountId } = await props.params;
-  console.log({ accountId });
 
   const supabase = await createClient();
 

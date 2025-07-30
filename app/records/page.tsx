@@ -23,8 +23,6 @@ export default async function Page() {
     .from("accounts")
     .select("*");
 
-  console.log({ monthly_accounts });
-
   const formatAmount = (amount: number) => {
     if (!amount && amount !== 0) return "$0.00";
 

@@ -32,9 +32,6 @@ export function DeleteRecordButton({
     errors: {},
   });
 
-  console.log({ recordId });
-  console.log({ recordName });
-
   return (
     <AlertDialog>
       <AlertDialogTrigger asChild>
