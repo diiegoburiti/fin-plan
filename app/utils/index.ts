@@ -23,3 +23,11 @@ export const getErrorMessage = (errors: any, field: string): string | null => {
   }
   return null;
 };
+
+export const formattedDate = (date: Date) => {
+  return new Intl.DateTimeFormat("en-US", {
+    month: "2-digit",
+    day: "2-digit",
+    year: "numeric",
+  }).format(new Date(date));
+};

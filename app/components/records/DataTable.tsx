@@ -29,6 +29,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DeleteRecordButton } from "./DeleteRecordButton";
+import { formattedDate } from "@/utils";
 
 export interface Record {
   transaction_id: string;
@@ -36,6 +37,7 @@ export interface Record {
   category: string;
   type: "income" | "expense";
   amount: number;
+  date: Date;
 }
 
 const formatAmount = (amount: number) => {
@@ -78,6 +80,8 @@ function DataTable<TData, TValue>({
   if (data.length === 0 && emptyComponent) {
     return <div>{emptyComponent}</div>;
   }
+
+  console.log({ data });
 
   return (
     <div className="w-full">
@@ -167,9 +171,6 @@ const createColumns = (accountId: string): ColumnDef<Record>[] => [
       <div className="flex flex-col">
         <div className="font-semibold text-gray-900 text-sm">
           {row.getValue("name")}
-        </div>
-        <div className="text-xs text-gray-500 mt-0.5">
-          ID: {row.original.transaction_id.slice(-8)}
         </div>
       </div>
     ),
@@ -261,6 +262,33 @@ const createColumns = (accountId: string): ColumnDef<Record>[] => [
           >
             {isIncome ? "+" : "-"}
             {formatAmount(Math.abs(record.amount))}
+          </div>
+        </div>
+      );
+    },
+  },
+  {
+    accessorKey: "date",
+    header: ({ column }) => {
+      return (
+        <div className="text-right">
+          <Button
+            variant="ghost"
+            onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
+            className="h-auto p-0 font-semibold text-gray-700 hover:text-gray-900"
+          >
+            Date
+            <ArrowUpDown className="ml-2 h-4 w-4" />
+          </Button>
+        </div>
+      );
+    },
+    cell: ({ row }) => {
+      const record = row.original;
+      return (
+        <div className="text-right">
+          <div className="font-semibold text-gray-900 text-sm">
+            {formattedDate(record.date)}
           </div>
         </div>
       );
