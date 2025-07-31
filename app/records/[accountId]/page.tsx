@@ -1,13 +1,12 @@
 import { Button } from "@/components/ui/button";
 import { createClient } from "@/lib/supabase/server";
 import Card from "@/components/shared/card";
-import { ArrowLeft, Pencil } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 import { CreateRecord } from "@/components/records/CreateRecord";
 import { DeleteAccountButton } from "@/components/records/DeleteAccountButton";
 import { EditAccountModal } from "@/components/records/EditAccountModal";
 import Link from "next/link";
-import { DeleteRecordButton } from "@/components/records/DeleteRecordButton";
-import { formatAmount } from "@/utils";
+import RecordsTable, { Record } from "@/components/records/DataTable";
 
 export default async function Page(props: {
   params: Promise<{ accountId: string }>;
@@ -44,6 +43,8 @@ export default async function Page(props: {
   ];
 
   const fullDetails = details![0];
+
+  console.log({ fullDetails });
 
   return (
     <>
@@ -102,67 +103,12 @@ export default async function Page(props: {
         </div>
       </Card>
 
-      <div>
-        {records && records.length > 0 ? (
-          records.map((record) => {
-            return (
-              <Card
-                key={record.transaction_id}
-                className={`${
-                  record.type === "income"
-                    ? "border-r-8 border-r-green-500"
-                    : "border-r-8 border-r-red-500"
-                }`}
-                animation
-              >
-                <div className="flex justify-between items-center">
-                  <span>{record.name}</span>
-                  <span>{record.category}</span>
-                  <div className="flex items-center gap-4">
-                    <span
-                      className={`${
-                        record.type === "income"
-                          ? "text-green-500"
-                          : "text-red-500"
-                      }`}
-                    >
-                      {formatAmount(record.amount)}
-                    </span>
-                    <div className="flex gap-2">
-                      <Button
-                        variant="secondary"
-                        size="icon"
-                        className="size-8"
-                      >
-                        <Link
-                          href={`/records/${accountId}/edit/${record.transaction_id}`}
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </Link>
-                      </Button>
-                      <DeleteRecordButton
-                        recordId={record.transaction_id}
-                        recordName={record.name}
-                        accountId={accountId}
-                      />
-                    </div>
-                  </div>
-                </div>
-              </Card>
-            );
-          })
-        ) : (
-          <Card className="p-8">
-            <div className="text-center space-y-3">
-              <h3 className="text-lg font-medium text-gray-900">
-                No transactions found
-              </h3>
-              <p className="text-gray-500">
-                Add your first transaction to get started.
-              </p>
-            </div>
-          </Card>
-        )}
+      <div className="container mx-auto py-10">
+        <RecordsTable
+          records={records as Record[]}
+          accountId={accountId}
+          initialAmount={fullDetails.initial_amount}
+        />
       </div>
 
       <CreateRecord accountId={accountId} categories={categories} />

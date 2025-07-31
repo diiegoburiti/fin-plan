@@ -36,11 +36,12 @@ export function DeleteRecordButton({
     <AlertDialog>
       <AlertDialogTrigger asChild>
         <Button
-          variant="secondary"
+          variant="ghost"
           size="icon"
-          className="size-8 cursor-pointer"
+          className="w-full h-8 justify-start cursor-pointer"
         >
           <Trash />
+          <span>Edit</span>
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
