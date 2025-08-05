@@ -20,7 +20,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { Loader2 } from "lucide-react";
+import { Loader2, Plus } from "lucide-react";
 import { DatePicker } from "@/components/ui/date-picker";
 import { createRecordAction, RecordActionState } from "@/lib/actions/records";
 
@@ -70,10 +70,11 @@ export function CreateRecord({ accountId, categories }: TransactionFormProps) {
     <Dialog>
       <DialogTrigger asChild>
         <Button
-          className="fixed bottom-[5%] left-1/2 transform -translate-x-1/2"
+          className="fixed bottom-[5%] left-1/2 transform -translate-x-1/2 font-bold"
           variant="outline"
         >
-          Add +
+          Add
+          <Plus className="font-bold" />
         </Button>
       </DialogTrigger>
       <DialogContent>

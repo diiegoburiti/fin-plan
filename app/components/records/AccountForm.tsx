@@ -67,14 +67,6 @@ export function AccountForm() {
           <DialogClose ref={closeRef} className="hidden" />
 
           <form action={formAction} className="space-y-4">
-            {actionState.success && (
-              <div className="p-3 bg-green-50 border border-green-200 rounded-md">
-                <p className="text-green-800 text-sm">
-                  Budget created successfully!
-                </p>
-              </div>
-            )}
-
             {generalError && (
               <div className="p-3 bg-red-50 border border-red-200 rounded-md">
                 <p className="text-red-800 text-sm">{generalError}</p>
@@ -107,7 +99,12 @@ export function AccountForm() {
 
             <div className="mb-4">
               <div className="space-y-2">
-                <Label htmlFor="initialBalance">Initial Amount</Label>
+                <Label
+                  htmlFor="initialBalance"
+                  className="text-gray-600 font-normal"
+                >
+                  Initial Amount
+                </Label>
                 <Input
                   type="text"
                   id="initialBalance"
