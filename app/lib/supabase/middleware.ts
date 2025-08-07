@@ -33,16 +33,17 @@ export async function updateSession(request: NextRequest) {
     data: { user },
   } = await supabase.auth.getUser();
 
-
-  const authRoutes = ['/auth/sign-in', '/auth/forgot-password'];
+  const authRoutes = ["/auth/sign-in", "/auth/forgot-password"];
   const currentPath = request.nextUrl.pathname;
 
-  
-
-  if (!user && !authRoutes.includes(currentPath) ) {
+  if (!user && !authRoutes.includes(currentPath)) {
     const url = request.nextUrl.clone();
     url.pathname = "/auth/sign-in";
     return NextResponse.redirect(url);
+  }
+
+  if (request.nextUrl.pathname === "/") {
+    return NextResponse.redirect(new URL("/records", request.url));
   }
 
   return supabaseResponse;
