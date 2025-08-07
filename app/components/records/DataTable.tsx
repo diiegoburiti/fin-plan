@@ -80,9 +80,6 @@ function DataTable<TData, TValue>({
   if (data.length === 0 && emptyComponent) {
     return <div>{emptyComponent}</div>;
   }
-
-  console.log({ data });
-
   return (
     <div className="w-full">
       <div className="rounded-lg border border-gray-200 bg-white shadow-sm overflow-hidden">
@@ -358,8 +355,6 @@ export function RecordsTable({
     .reduce((sum, record) => sum + Math.abs(record.amount), 0);
 
   const netAmount = initialAmount + totalIncome - totalExpenses;
-
-  console.log({ initialAmount });
 
   return (
     <div className="space-y-6">

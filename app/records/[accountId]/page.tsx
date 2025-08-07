@@ -44,8 +44,6 @@ export default async function Page(props: {
 
   const fullDetails = details![0];
 
-  console.log({ fullDetails });
-
   return (
     <>
       <Card>
@@ -71,12 +69,12 @@ export default async function Page(props: {
           <div className="mt-10 mb-6 grid grid-cols-12">
             <div className="col-span-3">
               <span className="line-clamp-1 flex gap-2 font-medium">Name</span>
-              <span className="text-">{fullDetails.name}</span>
+              <span className="font-normal">{fullDetails.name}</span>
             </div>
 
             <div className="col-span-3">
               <span className="line-clamp-1 flex gap-2 font-medium">Type</span>
-              <span className="text-">{fullDetails.type}</span>
+              <span className="font-normal">{fullDetails.type}</span>
             </div>
           </div>
           <div className="grid grid-cols-12">
@@ -84,20 +82,20 @@ export default async function Page(props: {
               <span className="line-clamp-1 flex gap-2 font-medium">
                 Initial Amount
               </span>
-              <span className="text-">{fullDetails.initial_amount}</span>
+              <span className="font-normal">{fullDetails.initial_amount}</span>
             </div>
 
             <div className="col-span-3">
               <span className="line-clamp-1 flex gap-2 font-medium">
                 Expenses
               </span>
-              <span className="text-">{fullDetails.type}</span>
+              <span className="font-normal">{fullDetails.type}</span>
             </div>
             <div className="col-span-3">
               <span className="line-clamp-1 flex gap-2 font-medium">
                 Current balance
               </span>
-              <span className="text-">999999</span>
+              <span className="font-normal">999999</span>
             </div>
           </div>
         </div>

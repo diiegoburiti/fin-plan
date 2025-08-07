@@ -86,8 +86,6 @@ export default function EditRecords({
       const dateFromDatePicker = formDataFromForm.get("date");
 
       data.append("date", dateFromDatePicker || formData.date);
-      console.log("Date being sent:", dateFromDatePicker || formData.date);
-
       formAction(data);
     });
   };
