@@ -41,7 +41,7 @@ export function DeleteRecordButton({
           className="w-full h-8 justify-start cursor-pointer"
         >
           <Trash />
-          <span>Edit</span>
+          <span>Delete</span>
         </Button>
       </AlertDialogTrigger>
       <AlertDialogContent>
