@@ -7,6 +7,7 @@ import { DeleteAccountButton } from "@/components/records/DeleteAccountButton";
 import { EditAccountModal } from "@/components/records/EditAccountModal";
 import Link from "next/link";
 import RecordsTable, { Record } from "@/components/records/DataTable";
+import { categories } from "@/utils";
 
 export default async function Page(props: {
   params: Promise<{ accountId: string }>;
@@ -24,23 +25,6 @@ export default async function Page(props: {
     .from("records")
     .select("*")
     .eq("account_id", accountId);
-
-  const categories = [
-    { label: "Food", value: "food" },
-    { label: "Shopping", value: "shopping" },
-    { label: "House", value: "house" },
-    { label: "Vehicle", value: "vehicle" },
-    { label: "Life & Entertainment", value: "life_entertainment" },
-    { label: "Communication & PC", value: "communication_pc" },
-    { label: "Financial Expenses", value: "financial_expenses" },
-    { label: "Health", value: "health" },
-    { label: "Sports", value: "sports" },
-    { label: "Fitness", value: "fitness" },
-    { label: "Wellness", value: "wellness" },
-    { label: "Income", value: "income" },
-    { label: "Others", value: "others" },
-    { label: "Refund", value: "refund" },
-  ];
 
   const fullDetails = details![0];
 
@@ -68,34 +52,17 @@ export default async function Page(props: {
           </div>
           <div className="mt-10 mb-6 grid grid-cols-12">
             <div className="col-span-3">
-              <span className="line-clamp-1 flex gap-2 font-medium">Name</span>
+              <span className="line-clamp-1 font-bold">Name</span>
               <span className="font-normal">{fullDetails.name}</span>
             </div>
 
             <div className="col-span-3">
-              <span className="line-clamp-1 flex gap-2 font-medium">Type</span>
+              <span className="line-clamp-1 font-medium">Type</span>
               <span className="font-normal">{fullDetails.type}</span>
             </div>
-          </div>
-          <div className="grid grid-cols-12">
             <div className="col-span-3">
-              <span className="line-clamp-1 flex gap-2 font-medium">
-                Initial Amount
-              </span>
+              <span className="line-clamp-1 font-medium">Initial Amount</span>
               <span className="font-normal">{fullDetails.initial_amount}</span>
-            </div>
-
-            <div className="col-span-3">
-              <span className="line-clamp-1 flex gap-2 font-medium">
-                Expenses
-              </span>
-              <span className="font-normal">{fullDetails.type}</span>
-            </div>
-            <div className="col-span-3">
-              <span className="line-clamp-1 flex gap-2 font-medium">
-                Current balance
-              </span>
-              <span className="font-normal">999999</span>
             </div>
           </div>
         </div>

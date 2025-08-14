@@ -20,8 +20,8 @@ import { getErrorMessage } from "@/utils";
 import { accountActionState, createAccount } from "@/lib/actions/account";
 
 const budgetOptions = [
-  { label: "General", value: "bank" },
-  { label: "Credit Card", value: "credit" },
+  { label: "General", value: "general" },
+  { label: "Credit Card", value: "credit_car" },
   { label: "Investments", value: "investments" },
 ];
 

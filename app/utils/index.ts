@@ -31,3 +31,20 @@ export const formattedDate = (date: Date) => {
     year: "numeric",
   }).format(new Date(date));
 };
+
+export const categories = [
+  { label: "Food", value: "food" },
+  { label: "Shopping", value: "shopping" },
+  { label: "House", value: "house" },
+  { label: "Vehicle", value: "vehicle" },
+  { label: "Life & Entertainment", value: "life_entertainment" },
+  { label: "Communication & PC", value: "communication_pc" },
+  { label: "Financial Expenses", value: "financial_expenses" },
+  { label: "Health", value: "health" },
+  { label: "Sports", value: "sports" },
+  { label: "Fitness", value: "fitness" },
+  { label: "Wellness", value: "wellness" },
+  { label: "Income", value: "income" },
+  { label: "Others", value: "others" },
+  { label: "Refund", value: "refund" },
+];

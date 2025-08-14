@@ -6,7 +6,7 @@ export const accountSchema = z.object({
     .min(1, "Budget name is required")
     .max(100, "Budget name must be less than 100 characters")
     .trim(),
-  type: z.enum(["bank", "cash", "credit", "savings", "investment"], {
+  type: z.enum(["general", "cash", "credit_card", "savings", "investment"], {
     required_error: "Please select a valid account type",
   }),
   initialBalance: z

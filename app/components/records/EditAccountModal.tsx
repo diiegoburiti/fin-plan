@@ -27,7 +27,7 @@ interface EditAccountModalProps {
 }
 
 const budgetOptions = [
-  { label: "General", value: "bank" },
+  { label: "General", value: "general" },
   { label: "Credit Card", value: "credit" },
   { label: "Investments", value: "investments" },
 ];

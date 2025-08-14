@@ -29,7 +29,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { DeleteRecordButton } from "./DeleteRecordButton";
-import { formattedDate } from "@/utils";
+import { categories, formattedDate } from "@/utils";
 
 export interface Record {
   transaction_id: string;
@@ -58,6 +58,11 @@ interface RecordsTable {
   accountId: string;
   initialAmount: number;
 }
+
+const getCategoryLabel = (recordCategory: string) => {
+  return categories.find((category) => category.value === recordCategory)
+    ?.label;
+};
 
 function DataTable<TData, TValue>({
   columns,
@@ -193,7 +198,7 @@ const createColumns = (accountId: string): ColumnDef<Record>[] => [
           variant="secondary"
           className="bg-blue-50 text-blue-700 border-blue-200 font-medium"
         >
-          {category}
+          {getCategoryLabel(category)}
         </Badge>
       );
     },
