@@ -53,16 +53,18 @@ export default async function Page(props: {
           <div className="mt-10 mb-6 grid grid-cols-12">
             <div className="col-span-3">
               <span className="line-clamp-1 font-bold">Name</span>
-              <span className="font-normal">{fullDetails.name}</span>
+              <span className="text-muted-foreground">{fullDetails.name}</span>
             </div>
 
             <div className="col-span-3">
               <span className="line-clamp-1 font-medium">Type</span>
-              <span className="font-normal">{fullDetails.type}</span>
+              <span className="text-muted-foreground">{fullDetails.type}</span>
             </div>
             <div className="col-span-3">
               <span className="line-clamp-1 font-medium">Initial Amount</span>
-              <span className="font-normal">{fullDetails.initial_amount}</span>
+              <span className="text-muted-foreground">
+                {fullDetails.initial_amount}
+              </span>
             </div>
           </div>
         </div>

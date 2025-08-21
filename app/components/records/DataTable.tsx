@@ -357,7 +357,7 @@ export function RecordsTable({
 
   const totalExpenses = records
     .filter((record) => record.type === "expense")
-    .reduce((sum, record) => sum + Math.abs(record.amount), 0);
+    .reduce((sum, record) => sum + record.amount, 0);
 
   const netAmount = initialAmount + totalIncome - totalExpenses;
 
