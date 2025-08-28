@@ -54,7 +54,7 @@ interface Record {
 
 interface DashboardData {
   accounts: Account[];
-  records: Record[];
+  records: RecordType[];
 }
 
 const COLORS = [
