@@ -48,3 +48,8 @@ export const categories = [
   { label: "Others", value: "others" },
   { label: "Refund", value: "refund" },
 ];
+
+export const getCategoryLabel = (recordCategory: string) => {
+  return categories.find((category) => category.value === recordCategory)
+    ?.label;
+};

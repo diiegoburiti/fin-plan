@@ -34,6 +34,7 @@ import {
 } from "recharts";
 
 import { createClient } from "@/lib/supabase/client";
+import { getCategoryLabel } from "@/utils";
 
 interface Account {
   account_id: string;
@@ -42,7 +43,7 @@ interface Account {
   initial_amount: number;
 }
 
-interface Record {
+interface RecordType {
   transaction_id: string;
   account_id: string;
   type: "expense" | "income";
@@ -213,9 +214,11 @@ export default function Page() {
       const expenses = accountRecords
         .filter((r) => r.type === "expense")
         .reduce((sum, r) => sum + parseFloat(r.amount.toString()), 0);
+
       const income = accountRecords
         .filter((r) => r.type === "income")
         .reduce((sum, r) => sum + parseFloat(r.amount.toString()), 0);
+
       const balance =
         parseFloat(account.initial_amount.toString()) + income - expenses;
 
@@ -232,7 +235,9 @@ export default function Page() {
 
   const categories = useMemo(() => {
     const uniqueCategories = [
-      ...new Set(data.records.map((r) => r.category).filter(Boolean)),
+      ...new Set(
+        data.records.map((record) => getCategoryLabel(record?.category))
+      ),
     ];
     return uniqueCategories;
   }, [data.records]);
@@ -331,7 +336,7 @@ export default function Page() {
                 <SelectContent>
                   <SelectItem value="all">All Categories</SelectItem>
                   {categories.map((category) => (
-                    <SelectItem key={category} value={category}>
+                    <SelectItem key={category} value={category || ""}>
                       {category}
                     </SelectItem>
                   ))}
@@ -482,7 +487,7 @@ export default function Page() {
                   fill="#8884d8"
                   dataKey="amount"
                   label={({ category, percent }) =>
-                    `${category} (${(percent * 100).toFixed(0)}%)`
+                    `${category} (${(percent || 0 * 100).toFixed(0)}%)`
                   }
                 >
                   {categoryData.map((entry, index) => (
