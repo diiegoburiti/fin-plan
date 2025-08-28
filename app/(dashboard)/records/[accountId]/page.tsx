@@ -13,7 +13,6 @@ export default async function Page(props: {
   params: Promise<{ accountId: string }>;
 }) {
   const { accountId } = await props.params;
-
   const supabase = await createClient();
 
   const { data: details } = await supabase
@@ -24,7 +23,8 @@ export default async function Page(props: {
   const { data: records } = await supabase
     .from("records")
     .select("*")
-    .eq("account_id", accountId);
+    .eq("account_id", accountId)
+    .order("date", { ascending: false });
 
   const fullDetails = details![0];
 
