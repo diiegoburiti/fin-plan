@@ -10,13 +10,15 @@ import {
 
 import { formatAmount } from "@/utils";
 
-interface AreaChartProps {
-  dailyData: any;
+export interface AreaChartProps {
+  dailyData: {
+    date: string;
+    expenses: number;
+    income: number;
+  }[];
 }
 
 export function AreaChart({ dailyData }: AreaChartProps) {
-  console.log({ dailyData });
-
   return (
     <ResponsiveContainer width="100%" height={300}>
       <AreaChartComponent data={dailyData}>
