@@ -9,6 +9,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { PieChartDonut } from "@/components/dashboard/ChartPieDonut";
+import { AreaChart } from "@/components/dashboard/AreaChart";
 import {
   CalendarIcon,
   DollarSign,
@@ -24,17 +26,11 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  BarChart,
-  Bar,
-  PieChart,
-  Pie,
-  Cell,
-  AreaChart,
-  Area,
 } from "recharts";
 
 import { createClient } from "@/lib/supabase/client";
 import { getCategoryLabel } from "@/utils";
+import { ChartPieSeparatorNone } from "@/components/dashboard/ChartPieSeparatorNone";
 
 interface Account {
   account_id: string;
@@ -57,15 +53,6 @@ interface DashboardData {
   accounts: Account[];
   records: RecordType[];
 }
-
-const COLORS = [
-  "#0088FE",
-  "#00C49F",
-  "#FFBB28",
-  "#FF8042",
-  "#8884d8",
-  "#82ca9d",
-];
 
 export default function Page() {
   const [data, setData] = useState<DashboardData>({
@@ -206,7 +193,7 @@ export default function Page() {
       .sort((a, b) => b.amount - a.amount);
   }, [filteredRecords]);
 
-  const accountData = useMemo(() => {
+  /*   const accountData = useMemo(() => {
     const accountTotals = data.accounts.map((account) => {
       const accountRecords = filteredRecords.filter(
         (r) => r.account_id === account.account_id
@@ -231,7 +218,7 @@ export default function Page() {
     });
 
     return accountTotals;
-  }, [data.accounts, filteredRecords]);
+  }, [data.accounts, filteredRecords]); */
 
   const categories = useMemo(() => {
     const uniqueCategories = [
@@ -441,82 +428,32 @@ export default function Page() {
       <div className="grid gap-4 md:grid-cols-2">
         <Card>
           <CardHeader>
-            <CardTitle>Daily Trends</CardTitle>
+            <CardTitle>Account Balances</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <AreaChart data={dailyData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="date" />
-                <YAxis />
-                <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                <Area
-                  type="monotone"
-                  dataKey="income"
-                  stackId="1"
-                  stroke="#10b981"
-                  fill="#10b981"
-                  fillOpacity={0.6}
-                />
-                <Area
-                  type="monotone"
-                  dataKey="expenses"
-                  stackId="2"
-                  stroke="#ef4444"
-                  fill="#ef4444"
-                  fillOpacity={0.6}
-                />
-              </AreaChart>
+              <ChartPieSeparatorNone chartData={categoryData} />
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
-        {/* Expense Categories */}
         <Card>
           <CardHeader>
             <CardTitle>Expenses by Category</CardTitle>
           </CardHeader>
           <CardContent>
             <ResponsiveContainer width="100%" height={300}>
-              <PieChart>
-                <Pie
-                  data={categoryData}
-                  cx="50%"
-                  cy="50%"
-                  outerRadius={80}
-                  fill="#8884d8"
-                  dataKey="amount"
-                  label={({ category, percent }) =>
-                    `${category} (${(percent || 0 * 100).toFixed(0)}%)`
-                  }
-                >
-                  {categoryData.map((entry, index) => (
-                    <Cell
-                      key={`cell-${index}`}
-                      fill={COLORS[index % COLORS.length]}
-                    />
-                  ))}
-                </Pie>
-                <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-              </PieChart>
+              <PieChartDonut chartData={categoryData} />
             </ResponsiveContainer>
           </CardContent>
         </Card>
 
         <Card>
           <CardHeader>
-            <CardTitle>Account Balances</CardTitle>
+            <CardTitle>Daily Trends</CardTitle>
           </CardHeader>
           <CardContent>
-            <ResponsiveContainer width="100%" height={300}>
-              <BarChart data={accountData}>
-                <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" />
-                <YAxis />
-                <Tooltip formatter={(value) => formatCurrency(Number(value))} />
-                <Bar dataKey="balance" fill="#3b82f6" />
-              </BarChart>
-            </ResponsiveContainer>
+            <AreaChart dailyData={dailyData} />
           </CardContent>
         </Card>
 
