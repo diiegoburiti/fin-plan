@@ -144,7 +144,6 @@ export async function deleteRecord(
       errors: { general: ["Failed to update record"] },
     };
   }
-  console.log("record updated!!!");
 
   revalidatePath(`records/${accountId}`);
 

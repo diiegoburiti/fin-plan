@@ -56,7 +56,7 @@ export default function Header() {
               }}
             >
               <Button
-                title="LogOut"
+                title="Log out"
                 variant="secondary"
                 size="icon"
                 className="size-8 cursor-pointer"

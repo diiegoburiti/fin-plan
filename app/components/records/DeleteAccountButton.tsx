@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import {
   AlertDialog,
@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { AlertTriangle, Loader2, Trash } from "lucide-react";
 import { deleteAccount } from "@/lib/actions/account";
+import { toast } from "sonner";
 
 interface DeleteAccountButtonProps {
   accountId: string;
@@ -29,6 +30,12 @@ export function DeleteAccountButton({
     success: false,
     errors: {},
   });
+
+  useEffect(() => {
+    if (state.success) {
+      toast.success("Record Deleted!");
+    }
+  }, [state]);
 
   return (
     <AlertDialog>

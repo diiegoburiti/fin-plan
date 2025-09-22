@@ -23,6 +23,7 @@ import {
 import { Loader2, Plus } from "lucide-react";
 import { DatePicker } from "@/components/ui/date-picker";
 import { createRecordAction, RecordActionState } from "@/lib/actions/records";
+import { toast } from "sonner";
 
 interface TransactionFormProps {
   accountId: string;
@@ -46,6 +47,7 @@ export function CreateRecord({ accountId, categories }: TransactionFormProps) {
   useEffect(() => {
     if (actionState.success) {
       closeRef.current?.click();
+      toast.success("Record created");
     }
   }, [actionState]);
 
@@ -84,14 +86,6 @@ export function CreateRecord({ accountId, categories }: TransactionFormProps) {
           <DialogClose ref={closeRef} className="hidden" />
 
           <form action={formAction} className="space-y-4">
-            {actionState.success && (
-              <div className="p-3 bg-green-50 border border-green-200 rounded-md">
-                <p className="text-green-800 text-sm">
-                  Transaction created successfully!
-                </p>
-              </div>
-            )}
-
             {generalError && (
               <div className="p-3 bg-red-50 border border-red-200 rounded-md">
                 <p className="text-red-800 text-sm">{generalError}</p>
