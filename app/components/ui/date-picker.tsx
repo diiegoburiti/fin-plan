@@ -19,6 +19,10 @@ interface DatePickerProps {
   required?: boolean;
 }
 
+const parseDate = (dateString: string) => {
+  return dateString ? new Date(dateString + "T12:00:00") : undefined;
+};
+
 export function DatePicker({
   name,
   defaultValue,
@@ -26,7 +30,7 @@ export function DatePicker({
   required = false,
 }: DatePickerProps) {
   const [date, setDate] = useState<Date | undefined>(
-    defaultValue ? new Date(defaultValue) : undefined
+    defaultValue ? parseDate(defaultValue) : undefined
   );
   const [open, setOpen] = useState(false);
 
