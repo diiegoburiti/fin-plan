@@ -31,7 +31,6 @@ interface TransactionFormProps {
 }
 
 export function CreateRecord({ accountId, categories }: TransactionFormProps) {
-  const today = new Date().toLocaleDateString();
   const closeRef = useRef<HTMLButtonElement>(null);
 
   const initialState: RecordActionState = {
@@ -145,7 +144,6 @@ export function CreateRecord({ accountId, categories }: TransactionFormProps) {
               <Label htmlFor="date">Transaction Date</Label>
               <DatePicker
                 name="date"
-                defaultValue={today}
                 placeholder="Pick a transaction date"
                 required
               />
